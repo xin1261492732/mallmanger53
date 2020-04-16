@@ -160,3 +160,41 @@ localStorage.setItem('token',data.token)
 2.home.vue => router-view
 3.新建users.vue
 4.定义users路由
+
+### 用户管理-用户列表-面包屑和搜索框
+1. el-card 卡片 小容器
+2. 面包屑
+3. el-row>el-col>el-inout+el-button
+4. 调整样式
+
+### 用户管理-用户列表-引入表格组件
+>el-table（data数据源[]） > el-table-column(lobel表头/prop="数据") > 字符串数据
+...html
+<el-table
+        :data="tableData"
+        style="width: 100%">
+        <el-table-column
+          prop="date"
+          label="日期"
+          width="180">
+        </el-table-column>
+        <el-table-column
+          prop="name"
+          label="姓名"
+          width="180">
+        </el-table-column>
+        <el-table-column
+          prop="address"
+          label="地址">
+        </el-table-column>
+      </el-table>
+      
+###   用户管理-用户列表-请求数据-设置请求头
+1. created(){this.getUserList}
+2. methods:{getUserList(){发送请求}
+3. 接口文档中 除了登录之外的所有请求都需要进行授权->设置请求头
+4. 找axios中关于请求头设置代码
+ const AUTH_TOKEN = localStorage.getItem('token')
+ this.$http.defaults.headers.common['Authorization'] = AUTH_TOKEN; 
+ 5.发送请求
+   
