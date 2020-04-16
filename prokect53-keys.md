@@ -154,3 +154,9 @@ localStorage.setItem('token',data.token)
 2. git merge  dev-login 合并分支
 3.push
 4.新建 dev-users
+
+### 用户管理-用户列表-新建组件-路由配置
+1.home.vue开启路由模式
+2.home.vue => router-view
+3.新建users.vue
+4.定义users路由

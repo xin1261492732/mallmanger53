@@ -16,7 +16,9 @@
     <el-container>
       <el-aside class="aside" width="200px">
         <!--侧边栏导航-->
+        <!--开启路由模式-->
         <el-menu
+          :router="true"
         :unique-opened="true">
           <el-submenu index="1">
             <template slot="title">
@@ -24,8 +26,8 @@
               <span>用户管理</span>
             </template>
               <!--<template slot="title">分组一</template>-->
-            <el-menu-item index="1-1">
-                  <i class="el-icon-success"></i>
+            <el-menu-item index="users">
+                  <i class="el-icon-menu"></i>
                   <span>用户列表</span>
             </el-menu-item>
           </el-submenu>
@@ -87,7 +89,9 @@
           </el-submenu>
         </el-menu>
       </el-aside>
-      <el-main class="main">Main</el-main>
+      <el-main class="main">
+        <router-view></router-view>
+      </el-main>
     </el-container>
   </el-container>
 </template>
@@ -95,7 +99,7 @@
 <script>
   export default {
     // newVue之前自动触发
-    beforeCreate() {
+    /*beforeCreate() {
       //获取token
       const token = localStorage.getItem('token')
       if(!token) {
@@ -103,7 +107,7 @@
         this.$router.push({name:'login'})
       }
       //if token 有 -> 继续渲染组件
-    },
+    },*/
     methods:{
       // 退出按钮
       handleSignout(){
