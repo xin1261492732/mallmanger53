@@ -9,7 +9,7 @@
           <h3>电商后台管理系统</h3>
         </el-col>
         <el-col :span="2"><div class="grid-content bg-purple">
-          <a href="#" class="loginout">退出</a>
+          <a href="#" class="loginout" @click.prevent="handleSignout()">退出</a>
         </div></el-col>
       </el-row>
     </el-header>
@@ -103,6 +103,17 @@
         this.$router.push({name:'login'})
       }
       //if token 有 -> 继续渲染组件
+    },
+    methods:{
+      // 退出按钮
+      handleSignout(){
+        // 1.清除token
+        localStorage.removeItem('token')
+        // 2.提示
+        this.$message.success('退出成功')
+        //3.来到login组件
+        this.$router.push({name:'login'})
+      }
     }
   }
 </script>
