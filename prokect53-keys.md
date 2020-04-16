@@ -125,3 +125,14 @@ localStorage.setItem('token',data.token)
 >调整el-menu
 >index不能一样
 
+### 首页-进入首页的权限验证
+ // newVue之前自动触发
+    beforeCreate() {
+      //获取token
+      const token = localStorage.getItem('token')
+      if(!token) {
+        // token 没有 -> 登录
+        this.$router.push({name:'login'})
+      }
+      //if token 有 -> 继续渲染组件
+    }
