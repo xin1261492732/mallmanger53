@@ -136,3 +136,21 @@ localStorage.setItem('token',data.token)
       }
       //if token 有 -> 继续渲染组件
     }
+
+### 首页-头部-退出
+// 退出按钮
+      handleSignout(){
+        // 1.清除token
+        localStorage.removeItem('token')
+        // 2.提示
+        this.$message.success('退出成功')
+        //3.来到login组件
+        this.$router.push({name:'login'})
+      }
+    }
+
+### 首页-合并分支-新建用户分支
+1.切到master
+2. git merge  dev-login 合并分支
+3.push
+4.新建 dev-users
