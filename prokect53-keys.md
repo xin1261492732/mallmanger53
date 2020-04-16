@@ -111,4 +111,17 @@ localStorage.setItem('token',data.token)
 
 ### 样式头部调整
 >loyout布局
+>行 el-row
+>列 el-col
+> 注意 ： 24 栏
+
+
+### 首页——侧边——导航组件-文档
+>el-meun
+1.router 开启路由模式 true index值==path值
+2.unique-opened是否值保持一个子菜单的展开
+
+### 首页——侧边——引入导航组件
+>调整el-menu
+>index不能一样
 
