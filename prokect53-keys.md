@@ -108,3 +108,7 @@ async handleLogin() {
 > 目的：如果用户没登录->url直接来带home组件
 > 在登录成功时，保存正确用户的token
 localStorage.setItem('token',data.token)
+
+### 样式头部调整
+>loyout布局
+
