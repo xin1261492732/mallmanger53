@@ -239,4 +239,68 @@ localStorage.setItem('token',data.token)
 ### 用户管理-用户列表-渲染数据-操作
 >操作里面不是字符串
 1.template容器 slot-scope='scope'
+2.el-button
+>size="mini" plain
+
+### 用户管理-用户列表-分页组件-文档-引入
+>该接口支持翻页 url参数中pagenum pagesize
+1.@size-change 每页显示的条数变化时  触发
+2.@current-change 当前页面改变时 触发
+3.current-page 设置当前是第几页
+4.page-sizes 每页多少条的数据数组
+5.page-size 设置第一次运行的时候显示多少条
+6.total 数据总数
+
+### 用户管理-用户列表-分页组件-配置数据
+1.current-page = "pagenum"
+2.page-size=2
+3.total =" total"
+
+### 用户管理-用户列表-分页组件-分页请求
+1. 每页显示条数改变 -> this.pagesize = val -> this.getUserList()
+2. 页面改变时 -> this.pagenum = val -> this.getUserList()
+> 希望当每页条数改变时 从第一页开始 this.pagenum = 1
+
+### 用户管理-用户列表-搜索用户
+1. 给搜索输入框绑定query v-model="query"
+2. 点击搜索按钮 发送请求
+3. 一键清除 clearable
+4. 点击清除按钮 -> 重新获取数据
+
+<el-input @clear = "loadUserList()"
+    clearable placeholder="请输入内容"
+     v-model="query"
+      class="inputSearch">
+ <el-button
+        @click="searchUser()"
+        slot="append" icon="el-icon-search"></el-button>
+</el-input>
+
+### 用户管理-用户列表-添加用户-显示对话框
+1. 引入对话框 > el-from
+2. 点击添加通话的按钮 显示对话框 this.dialogFormVisibleAdd = true
+3. 配置对话框
+
+### 用户管理-用户列表-添加用户-发送请求
+// 1.提示成功
+        this.$message.success(msg)
+        // 2.关闭对话框
+        // 3.更新视图
+        this.getUserList()
+        // 4.清空对话框
+        this.form = {}
+        
+### 用户管理-用户列表-删除用户-打开确认框
+>this.$congig().then().catch()
+1. 点击确认 -> then()
+2. 点击取消 -> catch()
+
+### 用户管理-用户列表-删除用户-处理响应
+1. 点击确认 -> then() -> detele()
+
+### 用户管理-童虎列表-编辑用户-显示对话框
+> 点击操作中的编辑按钮 打开编辑对话框
+
+### 用户管理-用户列表
+1. el-table 固定表头 height="300px"
 

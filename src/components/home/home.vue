@@ -97,34 +97,35 @@
 </template>
 
 <script>
-  export default {
-    // newVue之前自动触发
-    /*beforeCreate() {
-      //获取token
-      const token = localStorage.getItem('token')
-      if(!token) {
-        // token 没有 -> 登录
-        this.$router.push({name:'login'})
-      }
-      //if token 有 -> 继续渲染组件
-    },*/
-    methods:{
-      // 退出按钮
-      handleSignout(){
-        // 1.清除token
-        localStorage.removeItem('token')
-        // 2.提示
-        this.$message.success('退出成功')
-        //3.来到login组件
-        this.$router.push({name:'login'})
-      }
+export default {
+  // newVue之前自动触发
+  beforeCreate () {
+    // 获取token
+    const token = localStorage.getItem('token')
+    if (!token) {
+      // token 没有 -> 登录
+      this.$router.push({name: 'login'})
+    }
+    // if token 有 -> 继续渲染组件
+  },
+  methods: {
+    // 退出按钮
+    handleSignout () {
+      // 1.清除token
+      localStorage.removeItem('token')
+      // 2.提示
+      this.$message.success('退出成功')
+      // 3.来到login组件
+      this.$router.push({name: 'login'})
     }
   }
+}
 </script>
 
 <style>
  .container{
   height: 100%;
+  overflow: hidden;
  }
   .header{
     background-color: #b3c0d1;

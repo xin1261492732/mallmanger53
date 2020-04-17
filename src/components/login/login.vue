@@ -20,37 +20,36 @@
 </template>
 
 <script>
-  export default {
-    data(){
-      return{
-        formdata:{
-          username:'',
-          password:''
-        }
+export default {
+  data () {
+    return {
+      formdata: {
+        username: '',
+        password: ''
       }
-    },
-    // 登录请求
-    methods: {
-     async handleLogin() {
-       const res = await this.$http.post('login', this.formdata)
-            //登录成功
-            const {data, meta: {msg, status}} = res.data
-             if(status === 200) {
-               // 0 保存token
-               localStorage.setItem('token',data.token)
-               // 1.跳转home
-               this.$router.push({name:'home'})
-               // 2.提示成功
-               this.$message.success(msg)
-             }
-             else {
-               // 不成功
-               // 1.提示消息
-               this.$message.warning(msg)
-             }
+    }
+  }, // 登录请求
+  methods: {
+    async handleLogin () {
+      const res = await this.$http.post('login', this.formdata)
+      // 登录成功
+      const {data, meta: {msg, status}} = res.data
+      console.log(res)
+      if (status === 200) {
+        // 0 保存token
+        localStorage.setItem('token', data.token)
+        // 1.跳转home
+        this.$router.push({ name: 'home' })
+        // 2.提示成功
+        this.$message.success(msg)
+      } else {
+        // 不成功
+        // 1.提示消息
+        this.$message.warning(msg)
       }
     }
   }
+}
 </script>
 
 <style>
