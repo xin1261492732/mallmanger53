@@ -197,4 +197,46 @@ localStorage.setItem('token',data.token)
  const AUTH_TOKEN = localStorage.getItem('token')
  this.$http.defaults.headers.common['Authorization'] = AUTH_TOKEN; 
  5.发送请求
+ 
+ ### 用户管理-用户列表-渲染数据-一般数据
+ 1.解构赋值 const {meta:{status,msg},data:{users,total}} = res.data
+ 2. prop = ''
    
+### 用户管理-用户列表-渲染列表-日期格式处理
+1. main.js 全局过滤器
+2.  prop="create_time | fmtdate" 
+    如果单元格的内容只能显示文本
+3. 需要给该内容外层加容器
+       <template slot-scope="userlist">
+           {{userlist.row.create_time | fmtdate}}
+       </template>
+4. 最终写法 
+          </el-table-column>
+          <el-table-column
+            label="创建时间">
+            <template slot-scope="userlist">
+              {{userlist.row.create_time | fmtdate}}
+            </template>
+          </el-table-column>
+>slot-scope 作用：传值
+>slot-scope的值会自动去上一级找最外层标签el-table所绑定的数据userlist
+>slot-scope="scope" 此时"scope" === userlist数组
+>scope.row是数组的每个对象
+
+### 用户管理-用户列表-渲染数据-用户状态开关
+>el-switch  v-model='bool'
+<el-table-column
+          label="用户状态">
+          <template slot-scope="scope">
+            <el-switch
+              v-model="scope.row.mg_state"
+              active-color="#13ce66"
+              inactive-color="#ff4949">
+            </el-switch>
+          </template>
+        </el-table-column>
+
+### 用户管理-用户列表-渲染数据-操作
+>操作里面不是字符串
+1.template容器 slot-scope='scope'
+
