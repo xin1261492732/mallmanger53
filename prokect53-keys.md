@@ -337,3 +337,23 @@ localStorage.setItem('token',data.token)
 > el-select 和 el-option
 1. 当改变label时 -> 该label显示 -> 改变了value -> el-select v-model
 > 自动关联
+
+### 用户管理-用户列表-分配角色-显示当前用户角色
+1. 通过请求获取所有角色 roles
+2. v-if el-option :label="item.roleName" :value="item.id"
+3. 通过请求获取当前用户rid
+
+### 用户管理-用户列表-分配角色-修改用户角色
+1. 通过视图操作- 修改了label - value值变化
+> 在setRole要使用用户id  在data中声明id
+> 再打开对话框时 ID赋值
+async setRole () {
+      this.dialogFormVisibleRol = false
+      // users/:id/role
+      // :id 要修改的用户的 ID值
+      // 请求体中 rid 修改的新值角色id
+      const res = await this.$http.put(`users/${this.currUserId}/role`, {
+        rid: this.currRoleId
+      })
+      console.log(res)
+    },

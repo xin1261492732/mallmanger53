@@ -162,6 +162,7 @@
           </el-form-item>
           <el-form-item label="角色" label-width="100px">
             <!--如果select的绑定的数据的值 和 option 的 value一样 就会显示该optinon的value值-->
+            {{currRoleId}}
             <el-select v-model="currRoleId" >
               <el-option label="请选择"  :value="-1"></el-option>
              <el-option :label="item.roleName" :value="item.id"
@@ -172,7 +173,7 @@
         </el-form>
         <div slot="footer" class="dialog-footer">
           <el-button @click="dialogFormVisibleRol = false">取 消</el-button>
-          <el-button type="primary" @click="dialogFormVisibleRol = false">确 定</el-button>
+          <el-button type="primary" @click="setRole()">确 定</el-button>
         </div>
       </el-dialog>
     </div>
@@ -203,6 +204,7 @@ export default {
       },
       // 分配角色
       currRoleId: -1,
+      currUserId: '',
       currUsername: '',
       // 保存所有的角色属性
       roles: []
@@ -212,9 +214,22 @@ export default {
     this.getUserList()
   },
   methods: {
-    // 分配角色
+    // 分配角色 - 发送请求
+    async setRole () {
+      this.dialogFormVisibleRol = false
+      // users/:id/role
+      // :id 要修改的用户的 ID值
+      // 请求体中 rid 修改的新值角色id
+      const res = await this.$http.put(`users/${this.currUserId}/role`, {
+        rid: this.currRoleId
+      })
+      console.log(res)
+    },
+    // 分配角色 - 打开对话框
     async showSerYserRoleDia (user) {
       this.currUsername = user.username
+      // 给该属性赋值
+      this.currUserId = user.id
       // 获取所有的角色
       const res1 = await this.$http.get(`roles`)
       this.roles = res1.data.data
