@@ -414,3 +414,14 @@ async setRole () {
 2. roleName
 3. roleDesc
 4. 操作
+
+### 权限管理-权限列表-角色列表-表格展示-展开行功能分析
+1. type="expand"
+2. template > 该角色的权限（三级）
+3. 页面布局如果是行列布局问题 - for循环 - v-for嵌套 el-tag
+
+### 权限管理-权限列表-角色列表-表格展示-一级权限
+1. 分析数据rolelist  > 每个对象中的cholderen中的authName
+2. 布局一行>(列A>(el-tag)+列B(一行el-row)>两列(el-colA>el-tag+el-colB>el-tag)
+3. 一级权限展示 v-for 最外层的 el-row scope.row.children
+
