@@ -6,9 +6,11 @@ import Users from '../components/users/users'
 import Right from '../components/rights/right'
 import Role from '../components/rights/role'
 
+import {Message} from 'element-ui'
+
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   routes: [
     {
       name: 'login',
@@ -39,3 +41,29 @@ export default new Router({
     }
   ]
 })
+
+// 在路由配置生效之前 统一判断token
+// 路由守卫 在路由配置生效之前
+// 路由/导航守卫
+// to是要去的路由配置
+// from 当前的路由配置
+router.beforeEach((to, from, next) => {
+  // 如果要去的是登录
+  // 如果要去的不是登录
+  if (to.path === '/login') {
+    next()
+  } else {
+    const token = localStorage.getItem('token')
+    if (!token) {
+      // 判断token
+      //  如果有token没有 - login
+      Message.warning('请先登录')
+      router.push({name: 'login'})
+      return
+    }
+    // 如果有 - next()
+    next()
+  }
+})
+
+export default router

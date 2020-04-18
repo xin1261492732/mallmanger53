@@ -243,7 +243,7 @@ export default {
     // 修改状态
     async  changeMgState (user) {
       // 发送请求
-      const res = await this.$http.put(`users/${user.id}/state/${user.meg_state}`)
+      const res = await this.$http.put(`users/${user.id}/state/${user.mg_state}`)
       console.log(res)
     },
     // 编辑用户 - 发送请求
@@ -349,11 +349,13 @@ export default {
       const AUTH_TOKEN = localStorage.getItem('token')
       this.$http.defaults.headers.common['Authorization'] = AUTH_TOKEN
       const res = await this.$http.get(`users?query=${this.query}&pagenum=${this.pagenum}&pagesize=${this.pagesize}`)
-      console.log(res.data)
+      console.log(res)
       const {meta: {status, msg}, data: {users, total}} = res.data
       if (status === 200) {
         // 1.给表格数据赋值
         this.userlist = users
+        // console.log('----')
+        // console.log(this.userlist)
         // 2.给total赋值
         this.total = total
         // 3.提示

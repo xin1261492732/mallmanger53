@@ -19,7 +19,7 @@ Vue.use(MyHttpServer)
 Vue.config.productionTip = false
 
 Vue.filter('fmtdate', (v) => {
-  return moment(v).from('YYYY-MM-DD')
+  return moment(v).format('YYYY-MM-DD')
 })
 
 Vue.component(MyBread.name, MyBread)
