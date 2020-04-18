@@ -460,3 +460,61 @@ async setRole () {
 ### 权限管理-权限列表-角色列表-取消权限-优化
 > 删除成功-更新整个视图   只更新自己
 > 获取角色  - 更新当前角色children
+
+
+### 权限管理-权限列表-角色列表-显示对话框
+> 点击操作check按钮 打开对话框
+1. 提供对话框
+2. check按钮 @click="showSetYserRole(scope.row)
+
+### 权限管理-权限列表-角色列表-树形结构
+<!--
+      树形结构
+      data->数据源[]
+      show-checkbox ->选择框
+      node-key 每个节点的唯一标识 通常是data数据源key的id
+      default-expanded-keys 默认展开[要展开的节点id]
+      default-checked-keys [要选择的节点id]
+      props 配置项{label,chidren}
+      label 节点的文字标题  chidren 节点的子节点
+      都来自与data绑定的数据源中的该数据key 名 label chidren
+      -->
+
+### 权限管理-权限列表-角色列表-树形结构-配置数据
+1. data中 treelist
+2. 打开对话框 获取树形结构的权限列表数据
+> const res = this.$http.get(`rights/tree`)
+> this.treelist = res.data.data
+> el-tree node-key = "id"
+> :props=(label:'authName',children:'children')
+> 默认选中 默认展开
+
+### 权限管理-权限列表-角色列表-树形结构-展开所有项
+> default-expand-all
+
+### 权限管理-权限列表-角色列表-树形结构-显示角色拥有的权限
+> el-tre default-checked-key="[]"
+> 获取最底层的id值
+ let arrtemp2 = []
+      role.children.forEach(item1 => {
+        // arrtemp2.push(item1.id)
+        item1.children.forEach(item2 => {
+          // arrtemp2.push(item2.id)
+          item2.children.forEach(item3 => {
+            arrtemp2.push(item3.id)
+          })
+        })
+      })
+      this.arrcheck = arrtemp2
+
+### 权限管理-权限列表-角色列表-树形结构-分配权限-实现
+1. 点击对话框的确定 发送请求
+> roleId rid
+2. 获取id this.role = role.id
+3.1 获取全选的节点id数组 getCheckedKeys()
+3.2 获取半选的节点id数组  getHalfCheckedKeys()
+4. 为元素添加ref
+5. 将全选 和 半选 结合 let arr = [...arr1, ...arr2]
+6. const res = await this.$http.post(`roles/${this.currRoleId}/rights`,
+           {rids: arr.join(',')
+           })

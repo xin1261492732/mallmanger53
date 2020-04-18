@@ -55,7 +55,6 @@
         prop="address"
         label="操作">
         <template slot-scope="scope">
-          <el-row>
             <el-button  size="mini"
                         plain type="primary"
                         icon="el-icon-edit"
@@ -67,13 +66,34 @@
             <el-button size="mini"
                        plain type="success"
                        icon="el-icon-check"
-                       @click="showSerYserRole(scope.row)"
+                       @click="showSetYserRole(scope.row)"
                        circle></el-button>
-          </el-row>
         </template>
-
       </el-table-column>
     </el-table>
+     <!--修改权限打的对话框-->
+    <el-dialog title="修改权限" :visible.sync="dialogFormVisibleRole">
+      <!--
+      树形结构
+      :default-expanded-keys="[2, 3]"
+        :default-checked-keys="[5]">
+        :default-expanded-keys="arrexpand"
+      -->
+      <el-tree
+        ref="tree"
+        :data="treelist"
+        show-checkbox
+        node-key="id"
+        default-expand-all
+        :default-checked-keys="arrcheck"
+        :props="defaultProps">
+      </el-tree>
+
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisibleRole = false">取 消</el-button>
+        <el-button type="primary" @click="setRoleRight()">确 定</el-button>
+      </div>
+    </el-dialog>
   </el-card>
 </template>
 
@@ -81,20 +101,85 @@
 export default {
   data () {
     return {
-      rolelist: []
+      rolelist: [],
+      // 树形结构的数据
+      treelist: [],
+      dialogFormVisibleRole: false,
+      defaultProps: {
+        label: 'authName',
+        children: 'children'
+      },
+      // arrexpand: []
+      arrcheck: [],
+      currRoleId: -1
     }
   },
   created () {
     this.getRolelist()
   },
   methods: {
+    // 修改权限 - 发送请求
+    async setRoleRight () {
+      this.dialogFormVisibleRole = false
+      // roles/:roleId/rights
+      // roleId当前要修改授权的角色id
+      // rids 树形节点中 所有全选和板悬的label的id []
+      // 获取全选的id数据arr1 getCheckedKeys()
+      // 1.给要操作的dom元素  设置ref
+      let arr1 = this.$refs.tree.getCheckedKeys()
+      // 2.this.$refs.ref属性值.js方法名() this.$refs.txt.foucs()
+      // 获取半选id的数据arr2  getHalfCheckedKeys()
+      let arr2 = this.$refs.tree.getHalfCheckedKeys()
+
+      let arr = [...arr1, ...arr2]
+      const res = await this.$http.post(`roles/${this.currRoleId}/rights`,
+        {rids: arr.join(',')
+        })
+      // 更新视图
+      this.getRolelist()
+    },
+    // 分配权限 - 打开对话框
+    async showSetYserRole (role) {
+      // 给currRoleId赋值
+      this.currRoleId = role.id
+      // 获取树形结构的数据
+      const res = await this.$http.get(`rights/tree`)
+      // console.log(res)
+      this.treelist = res.data.data
+
+      // var arrtemp1 = []
+      // this.treelist.forEach(item1 => {
+      //   arrtemp1.push(item1.id)
+      //   item1.children.forEach(item2 => {
+      //     arrtemp1.push(item2.id)
+      //     item2.children.forEach(item3 => {
+      //       arrtemp1.push(item3.id)
+      //     })
+      //   })
+      // })
+      // this.arrexpand = arrtemp1
+
+      // 获取当前角色role 的权限id
+      let arrtemp2 = []
+      role.children.forEach(item1 => {
+        // arrtemp2.push(item1.id)
+        item1.children.forEach(item2 => {
+          // arrtemp2.push(item2.id)
+          item2.children.forEach(item3 => {
+            arrtemp2.push(item3.id)
+          })
+        })
+      })
+      this.arrcheck = arrtemp2
+      this.dialogFormVisibleRole = true
+    },
     // 取消权限
     async deleRight (role, rightId) {
       // roles/:roleId/rights/:rightId
       // roleId 当前角色的id
       // rightId 要删除的权限id
       const res = await this.$http.delete(`roles/${role.id}/rights/${rightId}`)
-      console.log(res)
+      // console.log(res)
       if (res.status === 200) {
         // 删除成功 返回状态 和剩余权限
         role.children = res.data.data
