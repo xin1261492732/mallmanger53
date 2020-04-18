@@ -368,10 +368,6 @@ export default {
 </script>
 
 <style>
- .box-card {
-   height: 100%;
-   overflow: hidden;
- }
   .inputSearch {
     width: 400px;
   }

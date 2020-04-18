@@ -379,3 +379,20 @@ async setRole () {
 ### 权限管理-权限列表-获取权限列表数据
 >除了登录之外的所有请求 都需要设置头部信息
 > type参数 值list或者tree
+
+### 权限管理-权限列表-axios-拦截器统一-设置请求头
+> 除了登录之外的所有请求 都需要设置头部信息
+> 在请求发起之前 都要添加头部 
+> 请求拦截器 confing.header
+
+### 权限管理-权限列表-表格展示
+> 引入el-table 绑定数据 rightlist (authName path level)
+
+### 权限管理-权限列表-表格展示-层级展示
+>level === '0' 一级
+1. template slot-scope="scope"
+2. v-if="scope.row.level == 1"
+
+### 权限管理-权限列表-表格展示-固定表头
+> 给el-table设置固定高
+> overflow:auto
