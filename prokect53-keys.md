@@ -518,3 +518,32 @@ async setRole () {
 6. const res = await this.$http.post(`roles/${this.currRoleId}/rights`,
            {rids: arr.join(',')
            })
+
+### 首页-侧边栏-动态导航
+> get('menus) 获取导航的所有数据
+1. order
+2. path标识
+3. children
+4. v-for
+> 在写导航按照获取的数据写
+
+### 
+> 每个角色有不同的权限
+1. 新建用户 分配角色
+2. 回到登录页 登录新用户 -> token
+3. 渲染home组件的侧边栏时， 使用header中的token
+4. 发送getMenus() 也会使用header
+
+### for循环
+
+      // var arrtemp1 = []
+      // this.treelist.forEach(item1 => {
+      //   arrtemp1.push(item1.id)
+      //   item1.children.forEach(item2 => {
+      //     arrtemp1.push(item2.id)
+      //     item2.children.forEach(item3 => {
+      //       arrtemp1.push(item3.id)
+      //     })
+      //   })
+      // })
+      // this.arrexpand = arrtemp1

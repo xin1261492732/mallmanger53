@@ -20,19 +20,20 @@
         <el-menu
           :router="true"
         :unique-opened="true">
-          <el-submenu index="1">
+          <el-submenu :index="item1.order+''" v-for="(item1, index) in menus" :key="index">
             <template slot="title">
               <i class="el-icon-location"></i>
-              <span>用户管理</span>
+              <span>{{item1.authName}}</span>
             </template>
               <!--<template slot="title">分组一</template>-->
-            <el-menu-item index="users">
+            <el-menu-item :index="item2.path"
+                          v-for="(item2, index) in item1.children" :key="index">
                   <i class="el-icon-menu"></i>
-                  <span>用户列表</span>
+                  <span>{{item2.authName}}</span>
             </el-menu-item>
           </el-submenu>
          <!---->
-          <el-submenu index="2">
+          <!--<el-submenu index="2">
             <template slot="title">
               <i class="el-icon-location"></i>
               <span>权限列表</span>
@@ -46,7 +47,7 @@
               <span>权限列表</span>
             </el-menu-item>
           </el-submenu>
-          <!---->
+          &lt;!&ndash;&ndash;&gt;
           <el-submenu index="3">
             <template slot="title">
               <i class="el-icon-location"></i>
@@ -65,7 +66,7 @@
               <span>商品分类</span>
             </el-menu-item>
           </el-submenu>
-          <!---->
+          &lt;!&ndash;&ndash;&gt;
           <el-submenu index="4">
             <template slot="title">
               <i class="el-icon-location"></i>
@@ -76,7 +77,7 @@
               <span>订单列表</span>
             </el-menu-item>
           </el-submenu>
-          <!---->
+          &lt;!&ndash;&ndash;&gt;
           <el-submenu index="5">
             <template slot="title">
               <i class="el-icon-location"></i>
@@ -86,7 +87,7 @@
               <i class="el-icon-menu"></i>
               <span>数据报表</span>
             </el-menu-item>
-          </el-submenu>
+          </el-submenu>-->
         </el-menu>
       </el-aside>
       <el-main class="main">
@@ -98,6 +99,11 @@
 
 <script>
 export default {
+  data () {
+    return {
+      menus: []
+    }
+  },
   // newVue之前自动触发
   beforeCreate () {
     // 获取token
@@ -108,7 +114,16 @@ export default {
     }
     // if token 有 -> 继续渲染组件
   },
+  created () {
+    this.getMenus()
+  },
   methods: {
+    // 获取导航数据
+    async getMenus () {
+      const res = await this.$http.get(`menus`)
+      console.log(res)
+      this.menus = res.data.data
+    },
     // 退出按钮
     handleSignout () {
       // 1.清除token
