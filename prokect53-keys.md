@@ -425,3 +425,38 @@ async setRole () {
 2. 布局一行>(列A>(el-tag)+列B(一行el-row)>两列(el-colA>el-tag+el-colB>el-tag)
 3. 一级权限展示 v-for 最外层的 el-row scope.row.children
 
+### 权限管理-权限列表-角色列表-表格展示-二级权限
+>一级权限的基础上 展示二级权限
+<el-row v-for="(item2, i) in scope.row.children" :key="i">
+              <el-col :span="4">
+                <el-tag type="success">{{item2.authName}}</el-tag>
+              </el-col>
+              <el-col :span="20"></el-col>
+            </el-row>
+
+### 权限管理-权限列表-角色列表-表格展示-三级权限
+>二级权限的基础上 展示三级权限
+<el-col :span="20">
+      <el-tag v-for="(item3, i) in item2.children" :key="i" type="warning">
+        {{item3.authName}}
+      </el-tag>
+    </el-col>
+    
+### 权限管理-权限列表-角色列表-样式调整
+1. el-tag颜色 type="success"
+2. closeable
+3. <i class="el-icon-arrow-right"></i>
+
+### 权限管理-权限列表-角色列表-无权限
+<span v-if="scope.row.children.length===0">未分配权限</span>
+
+### 权限管理-权限列表-角色列表-取消权限
+>点击x按钮 取消权限
+1. 绑定监听
+2. 发送请求
+3. await this.$http.delete(`roles/${roleId}/rights/${rightId}`)
+4.更新整个视图
+
+### 权限管理-权限列表-角色列表-取消权限-优化
+> 删除成功-更新整个视图   只更新自己
+> 获取角色  - 更新当前角色children
