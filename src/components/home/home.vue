@@ -38,11 +38,11 @@
               <span>权限列表</span>
             </template>
             <el-menu-item index="1-1">
-              <i class="el-icon-location"></i>
+              <i class="el-icon-menu"></i>
               <span>角色列表</span>
             </el-menu-item>
-            <el-menu-item index="1-1">
-              <i class="el-icon-location"></i>
+            <el-menu-item index="rights">
+              <i class="el-icon-menu"></i>
               <span>权限列表</span>
             </el-menu-item>
           </el-submenu>
@@ -53,15 +53,15 @@
               <span>商品列表</span>
             </template>
             <el-menu-item index="1-1">
-              <i class="el-icon-location"></i>
+              <i class="el-icon-menu"></i>
               <span>商品列表</span>
             </el-menu-item>
             <el-menu-item index="1-1">
-              <i class="el-icon-location"></i>
+              <i class="el-icon-menu"></i>
               <span>分类参数</span>
             </el-menu-item>
             <el-menu-item index="1-1">
-              <i class="el-icon-location"></i>
+              <i class="el-icon-menu"></i>
               <span>商品分类</span>
             </el-menu-item>
           </el-submenu>
@@ -72,7 +72,7 @@
               <span>订单管理</span>
             </template>
             <el-menu-item index="1-1">
-              <i class="el-icon-location"></i>
+              <i class="el-icon-menu"></i>
               <span>订单列表</span>
             </el-menu-item>
           </el-submenu>
@@ -83,7 +83,7 @@
               <span>数据统计</span>
             </template>
             <el-menu-item index="1-1">
-              <i class="el-icon-location"></i>
+              <i class="el-icon-menu"></i>
               <span>数据报表</span>
             </el-menu-item>
           </el-submenu>

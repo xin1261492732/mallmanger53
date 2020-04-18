@@ -5,6 +5,8 @@ import App from './App'
 import ElementUI from 'element-ui'
 import MyHttpServer from './plugins/http'
 import moment from 'moment'
+// MyBread其实是组件选项所在的对象
+import MyBread from './components/cuscom/mybread'
 
 import 'element-ui/lib/theme-chalk/index.css'
 import '@/assets/css/reset.css'
@@ -19,6 +21,8 @@ Vue.config.productionTip = false
 Vue.filter('fmtdate', (v) => {
   return moment(v).from('YYYY-MM-DD')
 })
+
+Vue.component(MyBread.name, MyBread)
 
 /* eslint-disable no-new */
 new Vue({

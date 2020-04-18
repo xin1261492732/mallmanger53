@@ -357,3 +357,25 @@ async setRole () {
       })
       console.log(res)
     },
+
+### 合并分支-推送
+1. git add.
+2. git commit -m "注释"
+3. git branch
+4. git checkout master
+5. git merge dev-users
+6. git push
+
+### 权限管理-权限列表-新建组件-路由配置
+1. 新建right.vue
+2. home.vue 改标识
+3. 配置路由
+
+### 权限管理-权限列表-自定义组件面包屑
+1. 所有组件都用到了面包屑
+2. 二次封装了面包屑组件 leve1 leve2 -> props:[]
+3.Vue.component(组件.name , 组件)
+
+### 权限管理-权限列表-获取权限列表数据
+>除了登录之外的所有请求 都需要设置头部信息
+> type参数 值list或者tree
