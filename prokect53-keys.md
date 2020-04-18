@@ -552,3 +552,12 @@ async setRole () {
 2. 导航守卫
 3. 路由生效前，先来到路由守卫的cb
 4. to 要去的路径 from当前的路由配置   next 让to继续生效
+
+### 权限管理-合并分支-推送-新建分支
+1. git status
+2. git add.
+3. git aommit-m ""
+4. git chckout master
+5. git branch 
+6. git status
+7. git push

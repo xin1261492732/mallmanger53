@@ -349,7 +349,8 @@ export default {
       const AUTH_TOKEN = localStorage.getItem('token')
       this.$http.defaults.headers.common['Authorization'] = AUTH_TOKEN
       const res = await this.$http.get(`users?query=${this.query}&pagenum=${this.pagenum}&pagesize=${this.pagesize}`)
-      console.log(res)
+      console.log('++++')
+      console.log(res.data)
       const {meta: {status, msg}, data: {users, total}} = res.data
       if (status === 200) {
         // 1.给表格数据赋值
