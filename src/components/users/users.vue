@@ -64,6 +64,7 @@
           label="用户状态">
           <template slot-scope="scope">
             <el-switch
+              @change="changeMgState(scope.row)"
               v-model="scope.row.mg_state"
               active-color="#13ce66"
               inactive-color="#ff4949">
@@ -79,7 +80,7 @@
               <el-button  size="mini"
                 plain type="primary"
                 icon="el-icon-edit"
-                circle @click="showEditUserDia(scope.row.id)"></el-button>
+                circle @click="showEditUserDia(scope.row)"></el-button>
               <el-button size="mini"
                 plain type="danger"
                 icon="el-icon-delete"
@@ -131,10 +132,10 @@
       </el-dialog>
 
       <!-- 编辑用户对话框-->
-      <el-dialog title="添加用户" :visible.sync="dialogFormVisibleEdit">
+      <el-dialog title="编辑用户" :visible.sync="dialogFormVisibleEdit">
         <el-form :model="form">
           <el-form-item label="用户名" label-width="100px">
-            <el-input v-model="form.username" autocomplete="off"></el-input>
+            <el-input disabled v-model="form.username" autocomplete="off"></el-input>
           </el-form-item>
           <el-form-item label="邮箱" label-width="100px">
             <el-input v-model="form.email" autocomplete="off"></el-input>
@@ -145,7 +146,7 @@
         </el-form>
         <div slot="footer" class="dialog-footer">
           <el-button @click="dialogFormVisibleEdit = false">取 消</el-button>
-          <el-button type="primary" @click="dialogFormVisibleEdit = false">确 定</el-button>
+          <el-button type="primary" @click="editUser()">确 定</el-button>
         </div>
       </el-dialog>
     </div>
@@ -179,8 +180,26 @@ export default {
     this.getUserList()
   },
   methods: {
+    // 修改状态
+    async  changeMgState (user) {
+      // 发送请求
+      const res = await this.$http.put(`users/${user.id}/state/${user.meg_state}`)
+      console.log(res)
+    },
+    // 编辑用户 - 发送请求
+    async editUser () {
+      // users/:id
+      const res = await this.$http.put(`users/${this.form.id}`, this.form)
+      console.log(res)
+      this.dialogFormVisibleEdit = false
+      // 更新视图
+      this.getUserList()
+    },
     // 编辑用户 - 显示对话框
-    showEditUserDia () {
+    showEditUserDia (user) {
+      console.log(user)
+      // 获取用户数据
+      this.form = user
       this.dialogFormVisibleEdit = true
     },
     // 删除用户 - 打开消息盒子
@@ -237,6 +256,7 @@ export default {
     },
     // 添加用户 -> 显示对话框
     showAddUserDia () {
+      this.form = {}
       this.dialogFormVisibleAdd = true
     },
     // 清空搜索框，重新获取数据

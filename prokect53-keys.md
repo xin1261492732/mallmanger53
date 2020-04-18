@@ -304,3 +304,14 @@ localStorage.setItem('token',data.token)
 ### 用户管理-用户列表
 1. el-table 固定表头 height="300px"
 
+### 用户管理-用户列表-编辑用户-显示编辑数据
+1. 点击edit编辑按钮 scope.row
+2. 在showEditUserDia()的方法中   this.form = user
+
+### 用户管理-用户列表-编辑用户-发送请求
+1. 找到对话框的确定按钮 - > editUser() -> 发送请求
+> this.form = user
+> id -> this.form.id
+> 先点编辑 再点添加 - > 打开添加对话框之前 this.form = {}
+
+### 
