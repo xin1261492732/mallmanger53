@@ -85,7 +85,11 @@
                 plain type="danger"
                 icon="el-icon-delete"
                 circle @click="showDeleUserMsgBox(scope.row.id)"></el-button>
-              <el-button size="mini" plain type="success" icon="el-icon-check" circle></el-button>
+              <el-button size="mini"
+                plain type="success"
+                icon="el-icon-check"
+                @click="showSerYserRoleDia(scope.row)"
+                circle></el-button>
             </el-row>
           </template>
 
@@ -149,6 +153,28 @@
           <el-button type="primary" @click="editUser()">确 定</el-button>
         </div>
       </el-dialog>
+
+      <!--分配角色的对话框 -->
+      <el-dialog title="分配角色" :visible.sync="dialogFormVisibleRol">
+        <el-form :model="form">
+          <el-form-item label="用户名" label-width="100px">
+           {{currUsername}}
+          </el-form-item>
+          <el-form-item label="角色" label-width="100px">
+            <!--如果select的绑定的数据的值 和 option 的 value一样 就会显示该optinon的value值-->
+            <el-select v-model="currRoleId" >
+              <el-option label="请选择"  :value="-1"></el-option>
+             <el-option :label="item.roleName" :value="item.id"
+             v-for="(item, i) in roles" :key="i"
+             ></el-option>
+            </el-select>
+          </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="dialogFormVisibleRol = false">取 消</el-button>
+          <el-button type="primary" @click="dialogFormVisibleRol = false">确 定</el-button>
+        </div>
+      </el-dialog>
     </div>
   </el-card>
 </template>
@@ -168,18 +194,37 @@ export default {
       dialogFormVisibleAdd: false,
       // 添加用户的表单数据
       dialogFormVisibleEdit: false,
+      dialogFormVisibleRol: false,
       form: {
         username: '',
         password: '',
         email: '',
         mobile: ''
-      }
+      },
+      // 分配角色
+      currRoleId: -1,
+      currUsername: '',
+      // 保存所有的角色属性
+      roles: []
     }
   },
   created () {
     this.getUserList()
   },
   methods: {
+    // 分配角色
+    async showSerYserRoleDia (user) {
+      this.currUsername = user.username
+      // 获取所有的角色
+      const res1 = await this.$http.get(`roles`)
+      this.roles = res1.data.data
+      // users/:id
+      // 获取当前角色的ID rid
+      const res = await this.$http.get(`users/${user.id}`)
+      // console.log(res)
+      this.currRoleId = res.data.data.rid
+      this.dialogFormVisibleRol = true
+    },
     // 修改状态
     async  changeMgState (user) {
       // 发送请求

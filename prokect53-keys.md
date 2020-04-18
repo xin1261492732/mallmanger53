@@ -314,4 +314,26 @@ localStorage.setItem('token',data.token)
 > id -> this.form.id
 > 先点编辑 再点添加 - > 打开添加对话框之前 this.form = {}
 
-### 
+### 用户管理-用户列表-用户状态
+1. 找到开关 @change = "changeMgState(scope.row)"
+2. 发送put请求
+>(`users/${user.id}/state/${user.meg_state}`)
+
+### 用户管理-用户列表-分配角色
+1. 点击按钮 - > 打开对话框
+2. 对话框 有下拉框
+3. 修改当前用户的角色
+4. 5个角色名来源于请求
+> 角色设置不同权限
+
+### 用户管理-用户列表-分配角色-显示对话框
+1. 点击操作的按钮 -> 打开对话框
+2. 引入对话框 -> 有下拉框
+> 下拉框 select 绑定的数据的值option的value值一样 就会显示option
+3. 把option分成了两类 请选择（-1） 和 v-for
+4. data提供了el-select 的 v-model所绑定的数据
+
+### 用户管理-用户列表-分配角色-显示对话框-下拉框
+> el-select 和 el-option
+1. 当改变label时 -> 该label显示 -> 改变了value -> el-select v-model
+> 自动关联
