@@ -18,7 +18,7 @@
 
     <el-tabs v-model="active" @tab-click="handleClick">
       <el-tab-pane label="动态参数" name="1">
-        <el-button type="danger">设置动态参数</el-button>
+        <el-button type="danger" @click="canshu">设置动态参数</el-button>
         <el-table :data="arrDyparams" style="width: 100%">
           <el-table-column type="expand" label="#">
             <template slot-scope="scope">
@@ -90,11 +90,11 @@
                 <el-button  size="mini"
                             plain type="primary"
                             icon="el-icon-edit"
-                            circle @click="showEditUserDia(scope.row)"></el-button>
+                            circle @click="showEditcatDia(scope.row)"></el-button>
                 <el-button size="mini"
                            plain type="danger"
                            icon="el-icon-delete"
-                           circle @click="showDeleUserMsgBox(scope.row.id)"></el-button>
+                           circle @click="showDelecatMsgBox(scope.row.id)"></el-button>
               </el-row>
               </template>
             </el-table-column>
@@ -115,6 +115,25 @@
         <el-button type="primary" @click="editUser()">确 定</el-button>
       </div>
     </el-dialog>
+
+    <!-- 编辑用户对话框-->
+<!--    <el-dialog title="编辑属性" :visible.sync="dialogFormVisible">-->
+<!--      <el-form :model="form">-->
+<!--        <el-form-item label="属性名称" label-width="100px">-->
+<!--          <el-input  v-model="form.attr_name" autocomplete="off"></el-input>-->
+<!--        </el-form-item>-->
+<!--        <el-form-item label="动态数据" label-width="100px">-->
+<!--          <el-input  v-model="form.attr_sel" autocomplete="off"></el-input>-->
+<!--        </el-form-item>-->
+<!--        <el-form-item label="选项" label-width="100px">-->
+<!--          <el-input  v-model="form.attr_vals" autocomplete="off"></el-input>-->
+<!--        </el-form-item>-->
+<!--      </el-form>-->
+<!--      <div slot="footer" class="dialog-footer">-->
+<!--        <el-button @click="dialogFormVisible = false">取 消</el-button>-->
+<!--        <el-button type="primary" @click="editams()">确 定</el-button>-->
+<!--      </div>-->
+<!--    </el-dialog>-->
   </el-card>
 </template>
 
@@ -136,8 +155,11 @@ export default {
       inputValue: '',
       arrStaticparams: [],
       dialogFormVisibleEdit: false,
+      dialogFormVisible: false,
       form: {
-        attr_name: ''
+        attr_name: '',
+        attr_sel: 'many',
+        attr_vals: []
       }
     }
   },
@@ -147,20 +169,17 @@ export default {
   methods: {
     // 编辑 -发送请求
     async editUser () {
-      const res = await this.$http.put(`categories/${this.selectedOptions[2]}/attributes`, this.form)
+      const res = await this.$http.put(`categories/${this.selectedOptions[2]}/attributes/${this.form.attr_id}`, this.form)
       console.log('-------')
-      console.log(this.selectedOptions[2])
-      console.log(res)
+      console.log(this.form.attr_id)
       this.dialogFormVisibleEdit = false
       // 更新视图
-      this.getGoodCate()
+      this.handleChange()
     },
     // 编辑对话框
     showEditUserDia (user) {
-      console.log(user)
       // 获取用户数据
       this.form = user
-      console.log(user)
       this.dialogFormVisibleEdit = true
     },
     // 点击x按钮
@@ -172,7 +191,8 @@ export default {
         attr_sel: 'many',
         attr_vals: scope.attr_vals.join(',')
       }
-      const res = await this.$http.put(`categories/${this.selectedOptions[2]}/attributes/${scope.attr_id}`, putData)
+      const res = await this.$http.put(`categories/${this.selectedOptions[2]}/attributes?sel=many`, putData)
+      console.log(res)
     },
     // 点击newTag按钮
     showInput () {

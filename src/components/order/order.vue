@@ -77,8 +77,6 @@ export default {
     async getData () {
       const res = await this.$http.get(`orders?pagenum=1&pagesize=10`)
       this.list = res.data.data.goods
-      console.log("------")
-      console.log(res.data.data)
     },
     showEditUserDia (user) {
       this.catlist = catlist

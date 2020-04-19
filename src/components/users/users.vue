@@ -350,7 +350,7 @@ export default {
       this.$http.defaults.headers.common['Authorization'] = AUTH_TOKEN
       const res = await this.$http.get(`users?query=${this.query}&pagenum=${this.pagenum}&pagesize=${this.pagesize}`)
       console.log('++++')
-      console.log(res.data)
+      console.log(res)
       const {meta: {status, msg}, data: {users, total}} = res.data
       if (status === 200) {
         // 1.给表格数据赋值

@@ -62,7 +62,7 @@
           <el-button type="primary" icon="el-icon-edit"
           circle size="mini" plain @click="showEditdia(scope.row)"
           ></el-button>
-          <el-button type="danger" icon="el-icon-edit"
+          <el-button type="danger" icon="el-icon-delete"
                      circle size="mini" plain @click="showDelefirm(scope.row)"
           ></el-button>
         </template>
@@ -79,6 +79,19 @@
       layout="total, sizes, prev, pager, next, jumper"
       :total="total">
     </el-pagination>
+
+    <!-- 编辑用户对话框-->
+    <el-dialog title="编辑商品" :visible.sync="dialogFormVisibleEdit">
+      <el-form :model="form">
+        <el-form-item label="名称" label-width="100px">
+          <el-input  v-model="form.cat_name" autocomplete="off"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisibleEdit = false">取 消</el-button>
+        <el-button type="primary" @click="editGoodsAtn()">确 定</el-button>
+      </div>
+    </el-dialog>
   </el-card>
 </template>
 
@@ -97,6 +110,7 @@ export default {
       pagesize: 5,
       total: 1,
       dialogFormVisibleAdd: false,
+      dialogFormVisibleEdit: false,
       form: {
         cat_pid: -1,
         cat_name: '',
@@ -110,7 +124,8 @@ export default {
       defaultProp: {
         value: 'cat_id',
         label: 'cat_name',
-        children: 'children'
+        children: 'children',
+        str: {}
       }
     }
   },
@@ -118,6 +133,33 @@ export default {
     this.getGoodsCate()
   },
   methods: {
+    // 删除用户 - 打开消息盒子 categories/:id
+    showDelefirm (userId) {
+      this.$confirm('删除商品?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(async () => {
+        const res = await this.$http.delete(`categories/${userId.cat_id}`)
+        console.log(res)
+        const {meta: {status, msg}} = res.data
+        if (status === 200) {
+          this.pagenum = 1
+          // 更新视图
+          this.getGoodsCate()
+          // 提示
+          this.$message({
+            type: 'success',
+            message: msg
+          })
+        }
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        })
+      })
+    },
     // 添加分类 - 发送请求
     async addCate () {
       if (this.selectedOptions.length === 0) {
@@ -145,10 +187,11 @@ export default {
     // 获取所有分类
     async getGoodsCate () {
       const res = await this.$http.get(
-        `categories?type=3&pagenum=${this.pagenum}$pagesize=${this.pagesize}`
+        `categories?type=1&pagenum=${this.pagenum}$pagesize=${this.pagesize}`
       )
       this.list = res.data.data
-      console.log(res.data.data)
+      console.log('-----')
+      console.log(res)
 
       this.total = res.data.data.length
     },
@@ -161,6 +204,18 @@ export default {
     handleCurrentChange (val) {
       this.pagenum = val
       this.getGoodsCate()
+    },
+    // 编辑商品 - 发送请求
+    async editGoodsAtn () {
+      const res = await this.$http.put(`categories/${this.form.cat_id}`, this.form)
+      console.log(res)
+      this.dialogFormVisibleEdit = false
+      this.getGoodsCate()
+    },
+    // 编辑商品 - 打开消息框
+    showEditdia (user) {
+      this.form = user
+      this.dialogFormVisibleEdit = true
     }
   }
 }
