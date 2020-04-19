@@ -187,13 +187,13 @@ export default {
     // 获取所有分类
     async getGoodsCate () {
       const res = await this.$http.get(
-        `categories?type=1&pagenum=${this.pagenum}$pagesize=${this.pagesize}`
+        `categories?type=3&pagenum=${this.pagenum}&pagesize=${this.pagesize}`
       )
-      this.list = res.data.data
-      console.log('-----')
       console.log(res)
+      this.list = res.data.data.result
+      console.log('-----')
 
-      this.total = res.data.data.length
+      this.total = res.data.data.total
     },
     // 分页相关的方法
     handleSizeChange (val) {
