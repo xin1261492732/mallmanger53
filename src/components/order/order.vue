@@ -39,7 +39,7 @@
           </el-cascader>
         </el-form-item>
         <el-form-item label="详细地址" label-width="120px">
-          <el-input v-model="form.address" autocomplete="off"></el-input>
+          <el-input v-model="form.consignee_addr" autocomplete="off"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -58,7 +58,7 @@ export default {
       list: [],
       dialogFormVisible: false,
       form: {
-        address: ''
+        consignee_addr: ''
       },
       catlist: [],
       selectedOptions: []
@@ -68,13 +68,21 @@ export default {
     this.getData()
   },
   methods: {
+    async editUser () {
+      this.form.consignee_addr = this.selectedOptions.join() + this.form.consignee_addr
+      const res = await this.$http.put(`orders/${this.form.order_id}`, this.form)
+      this.selectedOptions = []
+      this.dialogFormVisible = false
+    },
     async getData () {
       const res = await this.$http.get(`orders?pagenum=1&pagesize=10`)
       this.list = res.data.data.goods
-      console.log(this.list)
+      console.log("------")
+      console.log(res.data.data)
     },
-    showEditUserDia () {
+    showEditUserDia (user) {
       this.catlist = catlist
+      this.form = user
       this.dialogFormVisible = true
     }
   }
