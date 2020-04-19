@@ -213,7 +213,7 @@ export default {
     // 获取三级分类的信息
     async getGoodCate () {
       const res = await this.$http.get(`categories?type=3`)
-      console.log(res)
+      // console.log(res)
       this.options = res.data.data
     }
   }
