@@ -59,7 +59,7 @@
             <el-button size="mini"
                        plain type="danger"
                        icon="el-icon-delete"
-                       circle @click="showDeleGoods(scope.row.id)"></el-button>
+                       circle @click="showDeleGoods(scope.row.goods_id)"></el-button>
           </el-row>
         </template>
 
@@ -128,7 +128,7 @@ export default {
     },
     // 编辑商品 - 发送请求
     async editGoods () {
-      const res = await this.$http.put(`goods/${this.form.id}`, this.form)
+      const res = await this.$http.put(`goods/${this.form.goods_id}`, this.form)
       this.dialogFormVisibleGoodsEdit = false
       // 更新视图
       this.getGoodsList()
@@ -145,6 +145,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(async () => {
+        console.log(goodsId)
         const res = await this.$http.delete(`goods/${goodsId}`)
         const {meta: {status, msg}} = res.data
         if (status === 200) {
@@ -186,8 +187,8 @@ export default {
       if (status === 200) {
         // 1.给表格数据赋值
         this.list = goods
-        // console.log('----')
-        // console.log(this.userlist)
+        console.log('----')
+        console.log(this.list)
         // 2.给total赋值
         this.total = total
         // 3.提示

@@ -561,3 +561,150 @@ async setRole () {
 5. git branch 
 6. git status
 7. git push
+
+### 商品管理-添加商品-步骤条
+1. 面包屑
+2. 提示 el-alert
+3. 步骤条
+> :active="" 控制着进度条
+
+
+### 商品管理-添加商品-tabs
+1. 引入el-tabs 表单元素 active
+2. 让步骤条和标签条绑定
+
+
+### 商品管理-添加商品=基本信息=表单绑定数据
+1. 最外层包裹 el-from
+2. v-model="from"
+
+### 商品管理-添加商品=基本信息-级联选择器
+> el-cascader 表单元素
+1. :options=数据[]
+2.  v-model="selectedOptions" 最终选择的label对应的value会在selectedOptions数组中
+
+el-cascader
+    expand-trigger="hover"
+    v-model="selectedOptions"
+    :props="defaultProps"
+    :options="options"
+    @change="handleChange"></el-cascader>
+
+### 商品管理-添加商品=基本信息-级联选择器-获取分类数据
+1. created()
+2. getGoodCate 发送请求
+3. this.options = res.data.data
+
+### 商品管理-添加商品=基本信息-级联选择器-获取动态数据
+1. 必要先选择三级分类 -> 点击第二个获取数据
+2. 当if (this.active === '2') {
+            if (this.selectedOptions.length !== 3) {
+3. `categories/${this.selectedOptions[2]}/attributes?sel=many`
+
+### 商品管理-添加商品-商品参数-复选框
+1. 商品参数-动态参数数据 - this.arrDyparnams
+2. el-form-item 
+3.v-for遍历el-form-item和里面的el-checkbox
+4. item.attr_vals =
+                item.attr_vals.length === 0
+                  ? [] : item.attr_vals = item.attr_vals.trim().split(',')
+
+### 商品管理-添加商品=基本信息-商品属性-获取静态数据
+1. 如果选中了第三个tab 
+2. sel=only
+> 静态参数的数据 是给商品属性用的
+
+### 商品管理-添加商品-商品参数-布局
+>v-for 遍历  
+<el-form-item :label="item.attr_name" v-for="(item, i) in arrStaticparams" :key="i">
+              <el-input v-model="item.attr_vals"></el-input>
+            </el-form-item>
+
+### 商品管理-添加商品-图片上传
+>el-upload
+1. action 全路径
+2. headers 头部
+3. :on-remove = 移除
+4. :on-previev=
+5. Lon-succe
+
+### 商品管理-添加商品-图片上传
+1. action=路径
+2. 设置头部
+
+
+### 商品管理-添加商品-商品内容-富文本
+import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.snow.css'
+import 'quill/dist/quill.bubble.css'
+
+import {quillEditor} from 'vue-quill-editor'
+
+  components: {
+    quillEditor
+  },
+>局部注册
+> 绑定数据 v-model="form.goods_introduce"
+
+
+### 商品管理-添加商品-商品内容-分类和图片
+1. 在临时上传成功时， 给pics添加元素
+2. 找索引
+handleRemove (file) {
+      // this.form.pics 移除当前x掉的图片
+      // 先获取该图片的索引
+      // findIndex 遍历  吧符合条件的元素的索引返回
+      // [{pic:路径},{pic:路径2}]
+      let Index = this.form.pics.findIndex((item) => {
+        return item.pic === file.response.data.tmp_path
+      })
+      this.form.pics.splice(Index, 1)
+    },
+    handleSuccess (file) {
+      // file.data.tmp_path
+      this.form.pics.push({
+        pic: file.data.tmp_path
+      })
+    },
+
+### 商品管理-添加商品-表单数据处理=attrs
+1. this.form-attrs [{attr_id:?,attr_value:?}]
+2. 获取动态 静态 数据
+3. 合并数据
+4. 发送请求 
+5. 回到商品列
+
+### 商品管理-分类参数-动态数据-布局
+1. el-from>el-form-item<el-cas级级联选择器
+2. 把goodsadd的级联进行修改
+3. created(){发送请求}
+
+### 商品管理-分类参数-动态数据-获取动态数据
+1. 级联选择器发生改变 并选择了 3级
+> 获取动态数据
+
+### 商品管理-分类参数-动态数据-表格渲染
+1. el-table :data="arrDyparams"
+2. 属性名称
+
+
+### 商品管理-分类参数-动态参数-删除-发送请求
+
+// 发送请求
+      let putData = {
+        attr_name: scope.attr_name,
+        attr_sel: 'many',
+        attr_vals: scope.attr_vals.join(',')
+      }
+      const res = await this.$http.put(`categories/${this.selectedOptions[2]}/attributes/${scope.attr_id}`, putData)
+    },
+
+### 商品管理-分类参数-动态参数-添加-发送请求
+// 发送请求
+      let putData = {
+        attr_name: scope.attr_name,
+        attr_sel: 'many',
+        attr_vals: scope.attr_vals.join(',')
+      }
+      const res = await this.$http.put(`categories/${this.selectedOptions[2]}/attributes/${scope.attr_id}`, putData)
+    },

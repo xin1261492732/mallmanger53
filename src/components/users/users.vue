@@ -355,8 +355,8 @@ export default {
       if (status === 200) {
         // 1.给表格数据赋值
         this.userlist = users
-        // console.log('----')
-        // console.log(this.userlist)
+        console.log('----')
+        console.log(res.data)
         // 2.给total赋值
         this.total = total
         // 3.提示
