@@ -23,7 +23,7 @@
         </el-col>
       </el-row>
       <!--3.表格-->
-      <el-table height="400px"
+      <el-table max-height="500px"
         :data="userlist"
         style="width: 100%">
         <el-table-column

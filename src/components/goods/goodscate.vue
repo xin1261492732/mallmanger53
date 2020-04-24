@@ -16,7 +16,6 @@
         </el-form-item>
         <!--级联-->
         <el-form-item label="分类" label-width="120px">
-          {{selectedOptions}}
           <el-cascader
           expand-trigger="hover"
           v-model="selectedOptions"

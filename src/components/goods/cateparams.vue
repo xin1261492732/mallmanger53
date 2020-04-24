@@ -16,7 +16,7 @@
     </el-form-item>
     </el-form>
 
-    <el-tabs v-model="active" @tab-click="handleClick" style="height: 300px; overflow: auto">
+    <el-tabs v-model="active" @tab-click="handleClick" style="height: 450px; overflow: auto">
       <el-tab-pane label="动态参数" name="1">
         <el-button type="danger" @click="canshu()">设置动态参数</el-button>
         <el-table :data="arrDyparams" style="width: 100%">
@@ -410,4 +410,9 @@ export default {
   .tagbox {
     margin-left: 5px;
   }
+ .input-new-tag {
+   width: 90px;
+   margin-left: 10px;
+   vertical-align: bottom;
+ }
 </style>
